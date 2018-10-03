@@ -6,8 +6,8 @@ import time
 import sys
 import json
 import pickle
-from gan_class.py import GAN
-from sample_data.py import sample_data
+from gan_class import GAN
+from sample_data_class import sample_data
 from classifier_class import classifier
 from scipy import signal
 
