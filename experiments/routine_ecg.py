@@ -52,7 +52,7 @@ def routine(sess, curves, y_values, curves_test, y_test, batch_size, sample_size
     g_max_loss = 1.
     d_max_loss = 1.
     g_max_run = 10
-    for epoch in range(150):
+    for epoch in range(250):
         epoch_start_time = time.time()
         for i in range(num_examples // batch_size):
             z_batch = np.random.normal(0, 1, size=[batch_size, sample_size])
@@ -116,7 +116,7 @@ def main():
     values = 96
     
     seed = int(sys.argv[1])
-    tot_ = 300
+    tot_ = 93
 
     # seed = 4
     np.random.seed(seed)
@@ -182,8 +182,8 @@ def main():
     #train_x_1 = curve_1_x[:sample_1]
     print(np.asarray(curve_1_x).shape, np.asarray(curves_1_g_out).shape)
     train_x_1 = np.concatenate((curve_1_x[:sample_1], curves_1_g_out), axis=0)
-    #train_y_1 = curve_1_y[:sample_1]
-    train_y_1 = np.concatenate((curve_1_y[:sample_1], t_1_g_out), axis=0)
+    train_y_1 = curve_1_y[:sample_1]
+    #train_y_1 = np.concatenate((curve_1_y[:sample_1], t_1_g_out), axis=0)
     
     train_data_classifier_curve_0 = np.concatenate((train_x_0[:tot_], train_y_0[:tot_]), axis=1)
     train_data_classifier_curve_1 = np.concatenate((train_x_1[:tot_], train_y_1[:tot_]), axis=1)
