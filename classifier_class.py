@@ -24,7 +24,7 @@ class classifier():
         """Model function for CNN."""
         
         input_layer = tf.reshape(features['x'], [-1, 1, self.num_values*2, 1])
-
+        print(input_layer.shape)
         # conv1
         conv1 = tf.layers.conv2d(
             inputs=input_layer,
@@ -80,10 +80,15 @@ class classifier():
         # evaluation metric
         eval_metric_ops = {
             "accuracy": tf.metrics.accuracy(
-                labels=labels, predictions=predictions["classes"])}
-        return labels, predictions["classes"]
-            #tf.estimator.EstimatorSpec(
-            #mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)
+                                            labels=labels, predictions=predictions["classes"]), "precision":
+tf.metrics.precision(
+                     labels=labels, predictions=predictions["classes"]), "recall":tf.metrics.recall(
+                                                                                                      labels=labels, predictions=predictions["classes"]),
+"auc":tf.metrics.accuracy(
+                          labels=labels, predictions=predictions["classes"])
+}
+        return tf.estimator.EstimatorSpec(
+            mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)
 
     def create_clas(self):
         cl = tf.estimator.Estimator(
@@ -99,12 +104,8 @@ class classifier():
         cl.train(input_fn=train_input_fn, steps=epochs, hooks=[logging_hook])
 
     def valuate(self, eval_data, labels, cl):
+        print(eval_data.shape)
         eval_input_fn = tf.estimator.inputs.numpy_input_fn(
             x={"x": eval_data}, y=labels, num_epochs=1, shuffle=False)
         eval_results = cl.evaluate(input_fn=eval_input_fn)
-        return eval_results
-    def epredict(self, eval_data, labels, cl):
-        eval_input_fn = tf.estimator.inputs.numpy_input_fn(
-                                                       x={"x": eval_data}, num_epochs=1, shuffle=False)
-        eval_results = cl.predict(input_fn=eval_input_fn)
         return eval_results
