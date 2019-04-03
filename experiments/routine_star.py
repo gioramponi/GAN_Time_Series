@@ -126,7 +126,7 @@ def main():
     sess = tf.InteractiveSession()
 
     #create sin_data
-    data = json.loads(open('data_light_curves_2.json').read())
+    data = json.loads(open('./tests/data_light_curves_2.json').read())
     curve_0 = np.asarray(data['2'])
     curve_0_x = curve_0
     curve_0_y = np.asarray([np.arange(values)]*sample_0)
